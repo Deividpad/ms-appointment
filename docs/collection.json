@@ -1,0 +1,270 @@
+{
+  "info": {
+    "_postman_id": "b3796136-2f5f-4a35-b0a9-a2b1394ebf54",
+    "name": "ms-appointment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "26329081"
+  },
+  "item": [
+    {
+      "name": "doctor",
+      "item": [
+        {
+          "name": "doctor",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullName\": \"Dr. Fernando Torres 2\",\n    \"specialtyId\": \"2\",\n    \"phone\": \"555-9092\",\n    \"email\": \"fernando.torres2@medisalud.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_api}}/doctor",
+              "host": [
+                "{{base_api}}"
+              ],
+              "path": [
+                "doctor"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "doctor/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_api}}/doctor/2",
+              "host": [
+                "{{base_api}}"
+              ],
+              "path": [
+                "doctor",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "patient",
+      "item": [
+        {
+          "name": "/patient",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullName\": \"Juan Pérez 1\",\n    \"identityDocument\": \"123456781\",\n    \"phone\": \"555-4321\",\n    \"email\": \"juan.perez1@email.com\",\n    \"birthDate\": \"1995-04-15\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_api}}/patient",
+              "host": [
+                "{{base_api}}"
+              ],
+              "path": [
+                "patient"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "patient/{kid}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_api}}/patient/1",
+              "host": [
+                "{{base_api}}"
+              ],
+              "path": [
+                "patient",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "appointments",
+      "item": [
+        {
+          "name": "appointment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"patientId\": 1,\n    \"doctorId\": 1,\n    \"appointmentDateTime\": \"2026-07-17T13:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_api}}/appointment",
+              "host": [
+                "{{base_api}}"
+              ],
+              "path": [
+                "appointment"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/appointments/availability",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_api}}/appointment/availability?doctorId=1&startDate=2026-07-17&endDate=2026-07-17",
+              "host": [
+                "{{base_api}}"
+              ],
+              "path": [
+                "appointment",
+                "availability"
+              ],
+              "query": [
+                {
+                  "key": "doctorId",
+                  "value": "1"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2026-07-17"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2026-07-17"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/appointment/{id}/cancel",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_api}}/appointment/3/cancel",
+              "host": [
+                "{{base_api}}"
+              ],
+              "path": [
+                "appointment",
+                "3",
+                "cancel"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/appointments/{id}/reschedule",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"newAppointmentDateTime\": \"2026-06-11T10:04:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_api}}/appointment/3/reschedule",
+              "host": [
+                "{{base_api}}"
+              ],
+              "path": [
+                "appointment",
+                "3",
+                "reschedule"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/appointments",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"doctorId\": 1,\n    \"patientId\": 1,\n    \"status\": \"SCHEDULED\",\n    \"start\": \"2026-07-17\",\n    \"end\": \"2026-07-17\",\n    \"pageable\": {\n        \"page\": 1,\n        \"size\": 10,\n        \"sortBy\": \"appointmentDateTime\",\n        \"sortDirection\": \"ASC\"\n    }\n    \n\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_api}}/appointment",
+              "host": [
+                "{{base_api}}"
+              ],
+              "path": [
+                "appointment"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

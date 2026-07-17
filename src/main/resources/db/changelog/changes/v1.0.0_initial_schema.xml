@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+            http://www.liquibase.org/xml/ns/dbchangelog
+            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- ChangeSet para la creación inicial de las tablas -->
+    <changeSet id="20260610-01" author="david">
+
+        <!-- Nueva Tabla Specialties -->
+        <createTable tableName="specialties">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <!-- Tabla Doctors (RF-01) -->
+        <createTable tableName="doctors">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="full_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specialty_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_doctor_specialty"
+                             referencedTableName="specialties"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="phone" type="varchar(20)" >
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <!-- Tabla Patients (RF-02) -->
+        <createTable tableName="patients">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="full_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="identity_document" type="varchar(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="phone" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="birth_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unlock_penalty_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <!-- Tabla Appointments (RF-03) -->
+        <createTable tableName="appointments">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="patient_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_appointment_patient"
+                             referencedTableName="patients"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="doctor_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_appointment_doctor"
+                             referencedTableName="doctors"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="appointment_date_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="canceled_at" type="timestamp"/>
+        </createTable>
+
+        <!-- Tabla Penalties (RN-05) -->
+        <createTable tableName="penalties">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="patient_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_penalty_patient"
+                             referencedTableName="patients"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="appointment_id" type="bigint">
+                <constraints nullable="false"
+                             unique="true"
+                             foreignKeyName="fk_penalty_appointment"
+                             referencedTableName="appointments"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="penalty_date_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="20260610-02" author="david">
+
+        <insert tableName="specialties">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="Cardiology"/>
+        </insert>
+        <insert tableName="specialties">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="Pediatrics"/>
+        </insert>
+        <insert tableName="specialties">
+            <column name="id" valueNumeric="3"/>
+            <column name="name" value="Dermatology"/>
+        </insert>
+
+        <insert tableName="specialties">
+            <column name="id" valueNumeric="4"/>
+            <column name="name" value="Gynecology"/>
+        </insert>
+        <insert tableName="specialties">
+            <column name="id" valueNumeric="5"/>
+            <column name="name" value="Ophthalmology"/>
+        </insert>
+        <insert tableName="specialties">
+            <column name="id" valueNumeric="6"/>
+            <column name="name" value="Otolaryngology"/>
+        </insert>
+        <insert tableName="specialties">
+            <column name="id" valueNumeric="7"/>
+            <column name="name" value="Neurology"/>
+        </insert>
+        <insert tableName="specialties">
+            <column name="id" valueNumeric="8"/>
+            <column name="name" value="Traumatology"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
