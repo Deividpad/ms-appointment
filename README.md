@@ -4,6 +4,71 @@ Appointment Service is a Spring Boot API for managing doctors, patients, appoint
 
 The application uses PostgreSQL, Liquibase for schema management, Spring Validation for request validation, and Springdoc OpenAPI for API documentation.
 
+### Architecture Diagram
+
+The high-level architecture diagram is available here:
+
+                           Appointment Service
+
+                    +--------------------------------+
+                    |           REST Clients          |
+                    | Swagger • Postman • Frontend   |
+                    +---------------+----------------+
+                                    |
+                                    |
+                           HTTP / JSON REST API
+                                    |
+                                    ▼
+                    +--------------------------------+
+                    |         REST Controllers        |
+                    | Doctor • Patient • Appointment |
+                    +---------------+----------------+
+                                    |
+                                    ▼
+                    +--------------------------------+
+                    |         Service Layer          |
+                    | Business Rules & Orchestration |
+                    +---------------+----------------+
+                                    |
+                 +------------------+------------------+
+                 |                  |                  |
+                 ▼                  ▼                  ▼
+      +----------------+   +----------------+  +----------------+
+      | Validation     |   | Penalty Logic  |  | Scheduler      |
+      | Bussiness      |   | Appointment    |  | Unlock Patients|
+      +----------------+   +----------------+  +----------------+
+                                    |
+                                    ▼
+                    +--------------------------------+
+                    |         Repository Layer        |
+                    |         Spring Data JPA         |
+                    +---------------+----------------+
+                                    |
+                                    ▼
+                    +--------------------------------+
+                    |          PostgreSQL            |
+                    |    Liquibase Managed Schema    |
+                    +--------------------------------+
+
+                        Cross-cutting Components
+
+        +----------------------------------------------------------+
+        | MapStruct | GlobalExceptionHandler | Jollyday | Pageable |
+        +----------------------------------------------------------+
+
+The project follows a layered architecture:
+
+- `controller`: REST endpoints and request/response handling
+- `service`: business rules and orchestration
+- `repository`: persistence access and queries
+- `entity`: JPA entities
+- `dto`: request and response contracts
+- `mapper`: MapStruct mappers between entities and DTOs
+- `exception`: centralized error handling and custom exceptions
+- `util`: scheduling, pagination, date rules, and shared constants
+- `annotation`: custom validation annotations
+
+
 ## Technology Stack
 
 - Java 21
@@ -20,18 +85,6 @@ The application uses PostgreSQL, Liquibase for schema management, Spring Validat
 - Jollyday for holiday checks
 
 ## Architecture
-
-The project follows a layered architecture:
-
-- `controller`: REST endpoints and request/response handling
-- `service`: business rules and orchestration
-- `repository`: persistence access and queries
-- `entity`: JPA entities
-- `dto`: request and response contracts
-- `mapper`: MapStruct mappers between entities and DTOs
-- `exception`: centralized error handling and custom exceptions
-- `util`: scheduling, pagination, date rules, and shared constants
-- `annotation`: custom validation annotations
 
 ### Main Domain Flow
 
@@ -187,59 +240,6 @@ Collection folders:
 - `doctor`
 - `patient`
 - `appointments`
-
-### Architecture Diagram
-
-The high-level architecture diagram is available here:
-
-                           Appointment Service
-
-                    +--------------------------------+
-                    |           REST Clients          |
-                    | Swagger • Postman • Frontend   |
-                    +---------------+----------------+
-                                    |
-                                    |
-                           HTTP / JSON REST API
-                                    |
-                                    ▼
-                    +--------------------------------+
-                    |         REST Controllers        |
-                    | Doctor • Patient • Appointment |
-                    +---------------+----------------+
-                                    |
-                                    ▼
-                    +--------------------------------+
-                    |         Service Layer          |
-                    | Business Rules & Orchestration |
-                    +---------------+----------------+
-                                    |
-                 +------------------+------------------+
-                 |                  |                  |
-                 ▼                  ▼                  ▼
-      +----------------+   +----------------+  +----------------+
-      | Validation     |   | Penalty Logic  |  | Scheduler      |
-      | Bussiness      |   | Appointment    |  | Unlock Patients|
-      +----------------+   +----------------+  +----------------+
-                                    |
-                                    ▼
-                    +--------------------------------+
-                    |         Repository Layer        |
-                    |         Spring Data JPA         |
-                    +---------------+----------------+
-                                    |
-                                    ▼
-                    +--------------------------------+
-                    |          PostgreSQL            |
-                    |    Liquibase Managed Schema    |
-                    +--------------------------------+
-
-                        Cross-cutting Components
-
-        +----------------------------------------------------------+
-        | MapStruct | GlobalExceptionHandler | Jollyday | Pageable |
-        +----------------------------------------------------------+
-
 
 ## REST Endpoints
 
